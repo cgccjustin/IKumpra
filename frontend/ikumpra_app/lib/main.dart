@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config/app_constants.dart';
-import 'screens/splash_screen.dart';
+import 'screens/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -148,7 +148,6 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     
     // Navigate to main app after splash
     Future.delayed(const Duration(seconds: 3), () {
-      // TODO: Check authentication status and navigate accordingly
       _navigateToMain();
     });
   }
@@ -160,17 +159,9 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   }
 
   void _navigateToMain() {
-    // TODO: Replace with actual navigation logic
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const Scaffold(
-          body: Center(
-            child: Text(
-              'Welcome to IKumpra!',
-              style: AppConstants.headingStyle,
-            ),
-          ),
-        ),
+        builder: (context) => const MainScreen(),
       ),
     );
   }
@@ -199,10 +190,17 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: AppConstants.elevatedShadow,
                       ),
-                      child: const Icon(
-                        Icons.shopping_basket,
-                        size: 60,
-                        color: AppConstants.primaryColor,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(
+                          'assests/iKumpra-logo-final.png',
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            Icons.shopping_basket,
+                            size: 60,
+                            color: AppConstants.primaryColor,
+                          ),
+                        ),
                       ),
                     ),
                     

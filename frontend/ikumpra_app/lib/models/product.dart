@@ -2,63 +2,45 @@ class Product {
   final String id;
   final String name;
   final String description;
-  final Category category;
   final double price;
+  final String image;
+  final String category;
   final String unit;
-  final int stock;
   final String freshness;
-  final List<String> images;
-  final Nutrition? nutrition;
   final bool isAvailable;
-  final bool isFeatured;
-  final List<String> tags;
-  final double? weight;
-  final String origin;
-  final DateTime? expiryDate;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final int stockQuantity;
+  final double rating;
+  final int reviewCount;
 
   Product({
     required this.id,
     required this.name,
     required this.description,
-    required this.category,
     required this.price,
+    required this.image,
+    required this.category,
     required this.unit,
-    required this.stock,
     required this.freshness,
-    required this.images,
-    this.nutrition,
     required this.isAvailable,
-    required this.isFeatured,
-    required this.tags,
-    this.weight,
-    required this.origin,
-    this.expiryDate,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.stockQuantity,
+    this.rating = 0.0,
+    this.reviewCount = 0,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['_id'] ?? json['id'],
+      id: json['id'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
-      category: Category.fromJson(json['category']),
-      price: (json['price'] ?? 0).toDouble(),
-      unit: json['unit'] ?? 'per kg',
-      stock: json['stock'] ?? 0,
-      freshness: json['freshness'] ?? 'fresh',
-      images: List<String>.from(json['images'] ?? []),
-      nutrition: json['nutrition'] != null ? Nutrition.fromJson(json['nutrition']) : null,
+      price: (json['price'] ?? 0.0).toDouble(),
+      image: json['image'] ?? '',
+      category: json['category'] ?? '',
+      unit: json['unit'] ?? '',
+      freshness: json['freshness'] ?? '',
       isAvailable: json['isAvailable'] ?? true,
-      isFeatured: json['isFeatured'] ?? false,
-      tags: List<String>.from(json['tags'] ?? []),
-      weight: json['weight']?.toDouble(),
-      origin: json['origin'] ?? 'Local',
-      expiryDate: json['expiryDate'] != null ? DateTime.parse(json['expiryDate']) : null,
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      stockQuantity: json['stockQuantity'] ?? 0,
+      rating: (json['rating'] ?? 0.0).toDouble(),
+      reviewCount: json['reviewCount'] ?? 0,
     );
   }
 
@@ -67,21 +49,15 @@ class Product {
       'id': id,
       'name': name,
       'description': description,
-      'category': category.toJson(),
       'price': price,
+      'image': image,
+      'category': category,
       'unit': unit,
-      'stock': stock,
       'freshness': freshness,
-      'images': images,
-      'nutrition': nutrition?.toJson(),
       'isAvailable': isAvailable,
-      'isFeatured': isFeatured,
-      'tags': tags,
-      'weight': weight,
-      'origin': origin,
-      'expiryDate': expiryDate?.toIso8601String(),
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
+      'stockQuantity': stockQuantity,
+      'rating': rating,
+      'reviewCount': reviewCount,
     };
   }
 
@@ -89,49 +65,31 @@ class Product {
     String? id,
     String? name,
     String? description,
-    Category? category,
     double? price,
+    String? image,
+    String? category,
     String? unit,
-    int? stock,
     String? freshness,
-    List<String>? images,
-    Nutrition? nutrition,
     bool? isAvailable,
-    bool? isFeatured,
-    List<String>? tags,
-    double? weight,
-    String? origin,
-    DateTime? expiryDate,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    int? stockQuantity,
+    double? rating,
+    int? reviewCount,
   }) {
     return Product(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
-      category: category ?? this.category,
       price: price ?? this.price,
+      image: image ?? this.image,
+      category: category ?? this.category,
       unit: unit ?? this.unit,
-      stock: stock ?? this.stock,
       freshness: freshness ?? this.freshness,
-      images: images ?? this.images,
-      nutrition: nutrition ?? this.nutrition,
       isAvailable: isAvailable ?? this.isAvailable,
-      isFeatured: isFeatured ?? this.isFeatured,
-      tags: tags ?? this.tags,
-      weight: weight ?? this.weight,
-      origin: origin ?? this.origin,
-      expiryDate: expiryDate ?? this.expiryDate,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
+      stockQuantity: stockQuantity ?? this.stockQuantity,
+      rating: rating ?? this.rating,
+      reviewCount: reviewCount ?? this.reviewCount,
     );
   }
-
-  String get formattedPrice => '₱${price.toStringAsFixed(2)}';
-  String get mainImage => images.isNotEmpty ? images.first : '';
-  bool get hasStock => stock > 0;
-  bool get isLowStock => stock <= 10 && stock > 0;
-  bool get isOutOfStock => stock == 0;
 }
 
 class Category {
