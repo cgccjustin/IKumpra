@@ -91,7 +91,7 @@ class AppConstants {
   static const String orderPreparing = 'preparing';
   static const String orderShipped = 'shipped';
   static const String orderDelivered = 'delivered';
-  static const String orderCancelled = 'cancelled';
+  static const String orderProgressCancelled = 'cancelled';
   
   // Payment Methods
   static const String paymentCOD = 'cod';
