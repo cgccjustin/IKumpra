@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../config/app_constants.dart';
+import 'chat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,37 +15,37 @@ class _HomeScreenState extends State<HomeScreen> {
     {
       'name': 'Bangus',
       'price': '₱150/kg',
-      'image': 'assests/Product Images/Product Images/bangus.jpg',
+      'image': 'assets/Product Images/Product Images/bangus.jpg',
       'category': 'Fish',
     },
     {
       'name': 'Danggit',
       'price': '₱200/kg',
-      'image': 'assests/Product Images/Product Images/Danggit.JPG',
+      'image': 'assets/Product Images/Product Images/Danggit.JPG',
       'category': 'Fish',
     },
     {
       'name': 'Dried Pusit',
       'price': '₱300/kg',
-      'image': 'assests/Product Images/Product Images/Dried Pusit.jpg',
+      'image': 'assets/Product Images/Product Images/Dried Pusit.jpg',
       'category': 'Fish',
     },
     {
       'name': 'Mamsa',
       'price': '₱180/kg',
-      'image': 'assests/Product Images/Product Images/Mamsa.jpg',
+      'image': 'assets/Product Images/Product Images/Mamsa.jpg',
       'category': 'Fish',
     },
     {
       'name': 'Molmol',
       'price': '₱120/kg',
-      'image': 'assests/Product Images/Product Images/Molmol.jpg',
+      'image': 'assets/Product Images/Product Images/Molmol.jpg',
       'category': 'Fish',
     },
     {
       'name': 'Pasayan',
       'price': '₱250/kg',
-      'image': 'assests/Product Images/Product Images/Pasayan.jpg',
+      'image': 'assets/Product Images/Product Images/Pasayan.jpg',
       'category': 'Fish',
     },
   ];
@@ -62,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(AppConstants.paddingMedium),
               child: Row(
                 children: [
-                  Image.asset(
-                    'assests/iKumpra-logo-final.png',
+                                      Image.asset(
+                      'assets/iKumpra-logo-final.png',
                     height: 40,
                     errorBuilder: (context, error, stackTrace) => const Icon(Icons.shopping_basket, size: 40),
                   ),
@@ -84,6 +85,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       // TODO: Show notifications
                     },
                   ),
+                  IconButton(
+                    icon: const Icon(Icons.chat),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ChatScreen(),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -99,8 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(AppConstants.borderRadiusLarge),
-                child: Image.asset(
-                  'assests/Posters/ikumpra-wedeliver-poster.jpg',
+                                        child: Image.asset(
+                          'assets/Posters/ikumpra-wedeliver-poster.jpg',
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: AppConstants.primaryColor,

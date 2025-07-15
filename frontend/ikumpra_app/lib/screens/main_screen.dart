@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../config/app_constants.dart';
 import 'home_screen.dart';
+import 'chat_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(),
     const _SearchScreen(),
     const _CartScreen(),
-    const _ProfileScreen(),
+    const ChatScreen(),
   ];
 
   @override
@@ -47,8 +48,8 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Cart',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.chat),
+            label: 'Chat',
           ),
         ],
       ),
@@ -88,18 +89,4 @@ class _CartScreen extends StatelessWidget {
   }
 }
 
-class _ProfileScreen extends StatelessWidget {
-  const _ProfileScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
-      body: const Center(
-        child: Text('Profile functionality coming soon!'),
-      ),
-    );
-  }
-} 
+ 

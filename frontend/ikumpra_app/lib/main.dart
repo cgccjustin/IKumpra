@@ -193,7 +193,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Image.asset(
-                          'assests/iKumpra-logo-final.png',
+                          'assets/iKumpra-logo-final.png',
                           fit: BoxFit.contain,
                           errorBuilder: (context, error, stackTrace) => const Icon(
                             Icons.shopping_basket,
