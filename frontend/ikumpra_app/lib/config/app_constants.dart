@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 
 class AppConstants {
   // App Info
-  static const String appName = 'IKumpra';
+  static const String appName = 'iKumpra';
   static const String appVersion = '1.0.0';
-  static const String appDescription = 'Fresh vegetables and fish at your doorstep';
+  static const String appDescription = 'Your Online Kumprador!';
   
-  // Colors
-  static const Color primaryColor = Color(0xFF2E7D32); // Green
-  static const Color secondaryColor = Color(0xFF4CAF50); // Light Green
-  static const Color accentColor = Color(0xFFFF9800); // Orange
-  static const Color backgroundColor = Color(0xFFF5F5F5);
-  static const Color surfaceColor = Color(0xFFFFFFFF);
-  static const Color textPrimaryColor = Color(0xFF212121);
-  static const Color textSecondaryColor = Color(0xFF757575);
-  static const Color errorColor = Color(0xFFD32F2F);
-  static const Color successColor = Color(0xFF388E3C);
-  static const Color warningColor = Color(0xFFFFA000);
+  // Colors - Updated to match the lime green theme
+  static const Color primaryColor = Color(0xFF32CD32); // Lime Green
+  static const Color secondaryColor = Color(0xFF90EE90); // Light Lime Green
+  static const Color accentColor = Color(0xFFFF6B35); // Orange
+  static const Color backgroundColor = Color(0xFFFFFFFF); // White
+  static const Color surfaceColor = Color(0xFFFFFFFF); // White
+  static const Color textPrimaryColor = Color(0xFF000000); // Black
+  static const Color textSecondaryColor = Color(0xFF666666); // Dark Grey
+  static const Color errorColor = Color(0xFFD32F2F); // Red
+  static const Color successColor = Color(0xFF4CAF50); // Green
+  static const Color warningColor = Color(0xFFFFA000); // Orange
+  static const Color cardColor = Color(0xFFFFFFFF); // White
+  static const Color borderColor = Color(0xFFE0E0E0); // Light Grey
   
   // Text Styles
   static const TextStyle headingStyle = TextStyle(
@@ -41,6 +43,12 @@ class AppConstants {
     fontSize: 14,
     fontWeight: FontWeight.normal,
     color: textSecondaryColor,
+  );
+  
+  static const TextStyle priceStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: primaryColor,
   );
   
   // Spacing
@@ -91,7 +99,7 @@ class AppConstants {
   static const String orderPreparing = 'preparing';
   static const String orderShipped = 'shipped';
   static const String orderDelivered = 'delivered';
-  static const String orderProgressCancelled = 'cancelled';
+  static const String orderCancelled = 'cancelled';
   
   // Payment Methods
   static const String paymentCOD = 'cod';

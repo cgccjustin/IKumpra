@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../config/app_constants.dart';
-import '../models/chat_message.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -10,278 +9,230 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _messageController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-  final List<ChatMessage> _messages = [];
-
-
-  @override
-  void initState() {
-    super.initState();
-    // Add welcome message
-    _messages.add(ChatMessage(
-      id: '1',
-      text: 'Hello! Welcome to iKumpra. Send us a message and we\'ll get back to you soon.',
-      isFromUser: false,
-      timestamp: DateTime.now(),
-      senderName: 'iKumpra Support',
-    ));
-  }
-
-  @override
-  void dispose() {
-    _messageController.dispose();
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _sendMessage() {
-    if (_messageController.text.trim().isEmpty) return;
-
-    final userMessage = ChatMessage(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      text: _messageController.text.trim(),
-      isFromUser: true,
-      timestamp: DateTime.now(),
-      senderName: 'You',
-    );
-
-    setState(() {
-      _messages.add(userMessage);
-    });
-
-    _messageController.clear();
-    _scrollToBottom();
-  }
-
-  void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-  }
+  final _formKey = GlobalKey<FormState>();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _companyController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _couponController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppConstants.backgroundColor,
       appBar: AppBar(
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Image.asset(
-                'assets/iKumpra-logo-final.png',
-                width: 24,
-                height: 24,
-                errorBuilder: (context, error, stackTrace) => const Icon(
-                  Icons.shopping_basket,
-                  size: 20,
-                  color: AppConstants.primaryColor,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'iKumpra Support',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  'Online',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white70,
-                  ),
-                ),
-              ],
-            ),
-          ],
+        backgroundColor: AppConstants.primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        title: const Text('Checkout'),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            // TODO: Show menu/sidebar
+          },
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.more_vert),
+            icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
-              // TODO: Show chat options
+              Navigator.pop(context);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios),
+            onPressed: () {
+              // TODO: Navigate to next screen
             },
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // Messages
-          Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.all(AppConstants.paddingMedium),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                return _buildMessageBubble(_messages[index]);
-              },
-            ),
-          ),
-          
-
-          
-          // Input area
-          Container(
-            padding: const EdgeInsets.all(AppConstants.paddingMedium),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  offset: const Offset(0, -2),
-                  blurRadius: 4,
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Type your message...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey[100],
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                    ),
-                    maxLines: null,
-                    textInputAction: TextInputAction.send,
-                    onSubmitted: (_) => _sendMessage(),
-                  ),
-                ),
-                const SizedBox(width: AppConstants.paddingMedium),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: AppConstants.primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                    onPressed: _sendMessage,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMessageBubble(ChatMessage message) {
-    final isFromUser = message.isFromUser;
-    
-    return Container(
-      margin: const EdgeInsets.only(bottom: AppConstants.paddingMedium),
-      child: Row(
-        mainAxisAlignment: isFromUser ? MainAxisAlignment.end : MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          if (!isFromUser) ...[
-            CircleAvatar(
-              radius: 16,
-              backgroundColor: AppConstants.primaryColor,
-              child: Image.asset(
-                'assets/iKumpra-logo-final.png',
-                width: 20,
-                height: 20,
-                errorBuilder: (context, error, stackTrace) => const Icon(
-                  Icons.shopping_basket,
-                  size: 16,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-          ],
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
-              decoration: BoxDecoration(
-                color: isFromUser ? AppConstants.primaryColor : Colors.grey[200],
-                borderRadius: BorderRadius.circular(16).copyWith(
-                  bottomLeft: isFromUser ? const Radius.circular(16) : const Radius.circular(4),
-                  bottomRight: isFromUser ? const Radius.circular(4) : const Radius.circular(16),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppConstants.paddingLarge),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Login and Coupon Links
+              Column(
                 children: [
-                  Text(
-                    message.text,
-                    style: TextStyle(
-                      color: isFromUser ? Colors.white : Colors.black87,
-                      fontSize: 16,
+                  TextButton(
+                    onPressed: () {
+                      // TODO: Show login dialog
+                    },
+                    child: const Text(
+                      'Returning customer? Click here to login',
+                      style: TextStyle(
+                        color: AppConstants.primaryColor,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _formatTime(message.timestamp),
-                    style: TextStyle(
-                      color: isFromUser ? Colors.white70 : Colors.grey[600],
-                      fontSize: 12,
+                  TextButton(
+                    onPressed: () {
+                      // TODO: Show coupon dialog
+                    },
+                    child: const Text(
+                      'Have a coupon? Click here to enter your code.',
+                      style: TextStyle(
+                        color: AppConstants.primaryColor,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ),
-          if (isFromUser) ...[
-            const SizedBox(width: 8),
-            CircleAvatar(
-              radius: 16,
-              backgroundColor: Colors.grey[300],
-              child: const Icon(
-                Icons.person,
-                size: 16,
-                color: Colors.grey,
+
+              const SizedBox(height: AppConstants.paddingXLarge),
+
+              // Billing Details Section
+              const Text(
+                'Billing details',
+                style: AppConstants.headingStyle,
               ),
-            ),
-          ],
-        ],
+              const SizedBox(height: AppConstants.paddingMedium),
+
+              // First Name
+              TextFormField(
+                controller: _firstNameController,
+                decoration: const InputDecoration(
+                  labelText: 'First name*',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your first name';
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: AppConstants.paddingMedium),
+
+              // Last Name
+              TextFormField(
+                controller: _lastNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Last name*',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your last name';
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: AppConstants.paddingMedium),
+
+              // Company Name
+              TextFormField(
+                controller: _companyController,
+                decoration: const InputDecoration(
+                  labelText: 'Company name (optional)',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                ),
+              ),
+
+              const SizedBox(height: AppConstants.paddingMedium),
+
+              // Country
+              DropdownButtonFormField<String>(
+                decoration: const InputDecoration(
+                  labelText: 'Country*',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                ),
+                value: 'Philippines',
+                items: const [
+                  DropdownMenuItem(
+                    value: 'Philippines',
+                    child: Text('Philippines'),
+                  ),
+                ],
+                onChanged: (value) {
+                  // Handle country selection
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a country';
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: AppConstants.paddingMedium),
+
+              // Street Address
+              TextFormField(
+                controller: _addressController,
+                decoration: const InputDecoration(
+                  labelText: 'Street address*',
+                  hintText: 'House number and street name',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                ),
+                maxLines: 3,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your address';
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: AppConstants.paddingXLarge),
+
+              // Proceed to Checkout Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // TODO: Process checkout
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Order placed successfully!'),
+                          backgroundColor: AppConstants.successColor,
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppConstants.primaryColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: AppConstants.paddingLarge),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
+                    ),
+                  ),
+                  child: const Text(
+                    'Proceed to checkout',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: AppConstants.paddingXLarge),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-
-
-  String _formatTime(DateTime timestamp) {
-    final now = DateTime.now();
-    final difference = now.difference(timestamp);
-    
-    if (difference.inMinutes < 1) {
-      return 'Just now';
-    } else if (difference.inMinutes < 60) {
-      return '${difference.inMinutes}m ago';
-    } else if (difference.inHours < 24) {
-      return '${difference.inHours}h ago';
-    } else {
-      return '${timestamp.day}/${timestamp.month}/${timestamp.year}';
-    }
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _companyController.dispose();
+    _addressController.dispose();
+    _couponController.dispose();
+    super.dispose();
   }
 } 
