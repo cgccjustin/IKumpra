@@ -13,52 +13,52 @@ class _VegetablesScreenState extends State<VegetablesScreen> {
     {
       'name': 'Ahos',
       'price': '₱80/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/bangus.jpg',
     },
     {
       'name': 'Alugbati',
       'price': '₱60/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/Danggit.JPG',
     },
     {
       'name': 'Ampalaya',
       'price': '₱70/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/Mamsa.jpg',
     },
     {
       'name': 'Atzal',
       'price': '₱90/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/Rumpi.jpg',
     },
     {
       'name': 'Bagudo Beans',
       'price': '₱75/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/Sangi.jpg',
     },
     {
       'name': 'Lemonsito',
       'price': '₱100/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/Tamarong.jpg',
     },
     {
       'name': 'Luy-a',
       'price': '₱120/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/Altasik.jpg',
     },
     {
       'name': 'Okra',
       'price': '₱65/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/Anduhaw.jpg',
     },
     {
       'name': 'Patatas',
       'price': '₱85/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/yellow-fin.jpg',
     },
     {
       'name': 'Pechay',
       'price': '₱55/kg',
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/bangus.jpg',
     },
   ];
 
@@ -80,15 +80,15 @@ class _VegetablesScreenState extends State<VegetablesScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.search),
             onPressed: () {
-              Navigator.pop(context);
+              // TODO: Search functionality
             },
           ),
           IconButton(
-            icon: const Icon(Icons.arrow_forward_ios),
+            icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              // TODO: Navigate to next screen
+              // TODO: Navigate to cart
             },
           ),
         ],

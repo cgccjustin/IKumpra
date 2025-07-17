@@ -25,30 +25,35 @@ class AppConstants {
     fontSize: 24,
     fontWeight: FontWeight.bold,
     color: textPrimaryColor,
+    fontFamily: 'SF Pro Display',
   );
   
   static const TextStyle subheadingStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: textPrimaryColor,
+    fontFamily: 'SF Pro Display',
   );
   
   static const TextStyle bodyStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,
     color: textPrimaryColor,
+    fontFamily: 'SF Pro Text',
   );
   
   static const TextStyle captionStyle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.normal,
     color: textSecondaryColor,
+    fontFamily: 'SF Pro Text',
   );
   
   static const TextStyle priceStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
     color: primaryColor,
+    fontFamily: 'SF Pro Display',
   );
   
   // Spacing
@@ -144,5 +149,5 @@ class AppConstants {
   static const String itemAddedToCart = 'Item added to cart!';
   static const String itemRemovedFromCart = 'Item removed from cart!';
   static const String orderPlaced = 'Order placed successfully!';
-  static const String orderCancelled = 'Order cancelled successfully!';
+  static const String orderCancelledMessage = 'Order cancelled successfully!';
 } 

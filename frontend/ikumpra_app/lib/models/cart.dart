@@ -1,3 +1,5 @@
+import 'package:ikumpra_app/models/product.dart';
+
 class Cart {
   final String id;
   final String userId;

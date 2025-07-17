@@ -92,6 +92,8 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/Product Images/Product Images/
+    - assets/Posters/
     - assets/
 
   # fonts:

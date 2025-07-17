@@ -75,15 +75,15 @@ class _FishScreenState extends State<FishScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.search),
             onPressed: () {
-              Navigator.pop(context);
+              // TODO: Search functionality
             },
           ),
           IconButton(
-            icon: const Icon(Icons.arrow_forward_ios),
+            icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              // TODO: Navigate to next screen
+              // TODO: Navigate to cart
             },
           ),
         ],

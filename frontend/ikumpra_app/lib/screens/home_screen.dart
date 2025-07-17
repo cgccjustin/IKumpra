@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../config/app_constants.dart';
 import 'chat_screen.dart';
+import 'search_screen.dart';
+import 'profile_screen.dart';
+import 'fish_screen.dart';
+import 'vegetables_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +14,46 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  void _navigateToSearch() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SearchScreen(),
+      ),
+    );
+  }
+
+  void _navigateToProfile() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ProfileScreen(),
+      ),
+    );
+  }
+
+  void _navigateToChat() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ChatScreen(),
+      ),
+    );
+  }
+
+  void _navigateToFish() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const FishScreen(),
+      ),
+    );
+  }
+
+  void _navigateToVegetables() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const VegetablesScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,15 +72,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: _navigateToSearch,
+          ),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: _navigateToProfile,
+          ),
+          IconButton(
             icon: const Icon(Icons.chat),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ChatScreen(),
-                ),
-              );
-            },
+            onPressed: _navigateToChat,
           ),
         ],
       ),
@@ -147,9 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           'Fish',
                           Icons.set_meal,
                           AppConstants.primaryColor,
-                          () {
-                            // Navigate to fish screen
-                          },
+                          _navigateToFish,
                         ),
                       ),
                       const SizedBox(width: AppConstants.paddingMedium),
@@ -158,9 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           'Vegetables',
                           Icons.eco,
                           AppConstants.accentColor,
-                          () {
-                            // Navigate to vegetables screen
-                          },
+                          _navigateToVegetables,
                         ),
                       ),
                     ],
@@ -240,9 +281,9 @@ class _HomeScreenState extends State<HomeScreen> {
         'image': 'assets/Product Images/Product Images/bangus.jpg',
       },
       {
-        'name': 'Fresh Vegetables',
-        'price': '₱80/kg',
-        'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+        'name': 'Fresh Danggit',
+        'price': '₱200/kg',
+        'image': 'assets/Product Images/Product Images/Danggit.JPG',
       },
     ];
 

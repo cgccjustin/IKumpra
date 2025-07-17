@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../config/app_constants.dart';
+import 'checkout_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -23,10 +24,10 @@ class _CartScreenState extends State<CartScreen> {
       'image': 'assets/Product Images/Product Images/Danggit.JPG',
     },
     {
-      'name': 'Fresh Vegetables',
+      'name': 'Fresh Mamsa',
       'price': 200.00,
       'quantity': 1,
-      'image': 'assets/Product Images/Product Images/fruits-and-veg.jpg',
+      'image': 'assets/Product Images/Product Images/Mamsa.jpg',
     },
   ];
 
@@ -35,6 +36,15 @@ class _CartScreenState extends State<CartScreen> {
   double get subtotal => _cartItems.fold(0, (sum, item) => sum + (item['price'] * item['quantity']));
   double get shipping => 50.0; // Fixed shipping cost
   double get total => subtotal + shipping;
+
+  void _navigateToCheckout() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CheckoutScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +64,15 @@ class _CartScreenState extends State<CartScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.search),
             onPressed: () {
-              Navigator.pop(context);
+              // TODO: Search functionality
             },
           ),
           IconButton(
-            icon: const Icon(Icons.arrow_forward_ios),
+            icon: const Icon(Icons.delete_outline),
             onPressed: () {
-              // TODO: Navigate to next screen
+              // TODO: Clear cart
             },
           ),
         ],
@@ -201,30 +211,22 @@ class _CartScreenState extends State<CartScreen> {
                 
                 const SizedBox(height: AppConstants.paddingLarge),
                 
-                // Proceed to Checkout Button
+                // Checkout Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // TODO: Navigate to checkout
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Proceeding to checkout...'),
-                          backgroundColor: AppConstants.successColor,
-                        ),
-                      );
-                    },
+                    onPressed: _navigateToCheckout,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppConstants.primaryColor,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: AppConstants.paddingMedium),
+                      padding: const EdgeInsets.symmetric(vertical: AppConstants.paddingLarge),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
                       ),
                     ),
                     child: const Text(
                       'Proceed to Checkout',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
