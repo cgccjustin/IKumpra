@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config/app_constants.dart';
 import 'screens/main_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/fish_screen.dart';
+import 'screens/vegetables_screen.dart';
+import 'screens/cart_screen.dart';
+import 'screens/chat_screen.dart';
+import 'screens/search_screen.dart';
+import 'screens/profile_screen.dart';
+import 'screens/order_history_screen.dart';
+import 'screens/favorites_screen.dart';
+import 'screens/checkout_screen.dart';
+
+//Now You See
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,8 +41,24 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
         
-        // Text theme
-        textTheme: GoogleFonts.poppinsTextTheme(),
+        // Text theme - Use system fonts instead of Google Fonts
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          displaySmall: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          headlineLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+          headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          headlineSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          titleLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          titleMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          titleSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+          bodyLarge: TextStyle(fontSize: 16),
+          bodyMedium: TextStyle(fontSize: 14),
+          bodySmall: TextStyle(fontSize: 12),
+          labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+          labelSmall: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        ),
         
         // App bar theme
         appBarTheme: const AppBarTheme(
@@ -102,7 +129,21 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       
-      home: const SplashScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/main': (context) => const MainScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/fish': (context) => const FishScreen(),
+        '/vegetables': (context) => const VegetablesScreen(),
+        '/cart': (context) => const CartScreen(),
+        '/chat': (context) => const ChatScreen(),
+        '/search': (context) => const SearchScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/order-history': (context) => const OrderHistoryScreen(),
+        '/favorites': (context) => const FavoritesScreen(),
+        '/checkout': (context) => const CheckoutScreen(),
+      },
     );
   }
 }
@@ -159,11 +200,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   }
 
   void _navigateToMain() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const MainScreen(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed('/main');
   }
 
   @override

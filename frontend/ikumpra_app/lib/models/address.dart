@@ -3,35 +3,41 @@ class Address {
   final String street;
   final String city;
   final String state;
-  final String zipCode;
   final String country;
+  final String postalCode;
+  final String? apartment;
   final String? landmark;
   final bool isDefault;
-  final String? label; // e.g., "Home", "Work"
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Address({
     required this.id,
     required this.street,
     required this.city,
     required this.state,
-    required this.zipCode,
     required this.country,
+    required this.postalCode,
+    this.apartment,
     this.landmark,
     required this.isDefault,
-    this.label,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-      id: json['id'] ?? '',
+      id: json['id'] ?? json['_id'],
       street: json['street'] ?? '',
       city: json['city'] ?? '',
       state: json['state'] ?? '',
-      zipCode: json['zipCode'] ?? '',
       country: json['country'] ?? '',
+      postalCode: json['postalCode'] ?? '',
+      apartment: json['apartment'],
       landmark: json['landmark'],
       isDefault: json['isDefault'] ?? false,
-      label: json['label'],
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
 
@@ -41,11 +47,13 @@ class Address {
       'street': street,
       'city': city,
       'state': state,
-      'zipCode': zipCode,
       'country': country,
+      'postalCode': postalCode,
+      'apartment': apartment,
       'landmark': landmark,
       'isDefault': isDefault,
-      'label': label,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
     };
   }
 
@@ -54,27 +62,39 @@ class Address {
     String? street,
     String? city,
     String? state,
-    String? zipCode,
     String? country,
+    String? postalCode,
+    String? apartment,
     String? landmark,
     bool? isDefault,
-    String? label,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return Address(
       id: id ?? this.id,
       street: street ?? this.street,
       city: city ?? this.city,
       state: state ?? this.state,
-      zipCode: zipCode ?? this.zipCode,
       country: country ?? this.country,
+      postalCode: postalCode ?? this.postalCode,
+      apartment: apartment ?? this.apartment,
       landmark: landmark ?? this.landmark,
       isDefault: isDefault ?? this.isDefault,
-      label: label ?? this.label,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
   String get fullAddress {
-    final parts = [street, city, state, zipCode, country];
+    final parts = [street];
+    if (apartment != null && apartment!.isNotEmpty) {
+      parts.add('Apt $apartment');
+    }
+    parts.addAll([city, state, postalCode, country]);
     return parts.where((part) => part.isNotEmpty).join(', ');
+  }
+
+  String get shortAddress {
+    return '$street, $city';
   }
 } 

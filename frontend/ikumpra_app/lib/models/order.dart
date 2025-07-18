@@ -1,3 +1,6 @@
+import 'product.dart';
+import 'address.dart';
+
 class Order {
   final String id;
   final String orderNumber;

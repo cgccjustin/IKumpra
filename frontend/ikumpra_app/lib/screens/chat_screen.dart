@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../config/app_constants.dart';
-import '../models/chat_message.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -11,139 +10,77 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-  final List<ChatMessage> _messages = [];
-
-
-  @override
-  void initState() {
-    super.initState();
-    // Add welcome message
-    _messages.add(ChatMessage(
-      id: '1',
-      text: 'Hello! Welcome to iKumpra. Send us a message and we\'ll get back to you soon.',
-      isFromUser: false,
-      timestamp: DateTime.now(),
-      senderName: 'iKumpra Support',
-    ));
-  }
-
-  @override
-  void dispose() {
-    _messageController.dispose();
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _sendMessage() {
-    if (_messageController.text.trim().isEmpty) return;
-
-    final userMessage = ChatMessage(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      text: _messageController.text.trim(),
-      isFromUser: true,
-      timestamp: DateTime.now(),
-      senderName: 'You',
-    );
-
-    setState(() {
-      _messages.add(userMessage);
-    });
-
-    _messageController.clear();
-    _scrollToBottom();
-  }
-
-  void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-  }
+  final List<Map<String, dynamic>> _messages = [
+    {
+      'text': 'Hello! Welcome to iKumpra. How can I help you today?',
+      'isUser': false,
+      'timestamp': DateTime.now().subtract(const Duration(minutes: 5)),
+    },
+    {
+      'text': 'Hi! I have a question about your fish products.',
+      'isUser': true,
+      'timestamp': DateTime.now().subtract(const Duration(minutes: 4)),
+    },
+    {
+      'text': 'Of course! We have fresh fish products available. What would you like to know?',
+      'isUser': false,
+      'timestamp': DateTime.now().subtract(const Duration(minutes: 3)),
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppConstants.backgroundColor,
       appBar: AppBar(
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Image.asset(
-                'assets/iKumpra-logo-final.png',
-                width: 24,
-                height: 24,
-                errorBuilder: (context, error, stackTrace) => const Icon(
-                  Icons.shopping_basket,
-                  size: 20,
-                  color: AppConstants.primaryColor,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'iKumpra Support',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  'Online',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white70,
-                  ),
-                ),
-              ],
-            ),
-          ],
+        backgroundColor: AppConstants.primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        title: const Text('Chat Support'),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            // TODO: Show menu/sidebar
+          },
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.more_vert),
+            icon: const Icon(Icons.help_outline),
             onPressed: () {
-              // TODO: Show chat options
+              // TODO: Show help
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            onPressed: () {
+              // TODO: Navigate to cart
             },
           ),
         ],
       ),
       body: Column(
         children: [
-          // Messages
+          // Messages List
           Expanded(
             child: ListView.builder(
-              controller: _scrollController,
               padding: const EdgeInsets.all(AppConstants.paddingMedium),
               itemCount: _messages.length,
               itemBuilder: (context, index) {
-                return _buildMessageBubble(_messages[index]);
+                final message = _messages[index];
+                return _buildMessageBubble(message);
               },
             ),
           ),
           
-
-          
-          // Input area
+          // Message Input
           Container(
             padding: const EdgeInsets.all(AppConstants.paddingMedium),
             decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  offset: const Offset(0, -2),
-                  blurRadius: 4,
-                ),
-              ],
+              color: AppConstants.cardColor,
+              border: Border(
+                top: BorderSide(color: AppConstants.borderColor),
+              ),
             ),
             child: Row(
               children: [
@@ -153,34 +90,38 @@ class _ChatScreenState extends State<ChatScreen> {
                     decoration: InputDecoration(
                       hintText: 'Type your message...',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
                       ),
-                      filled: true,
-                      fillColor: Colors.grey[100],
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
+                        horizontal: AppConstants.paddingMedium,
+                        vertical: AppConstants.paddingSmall,
                       ),
                     ),
                     maxLines: null,
-                    textInputAction: TextInputAction.send,
-                    onSubmitted: (_) => _sendMessage(),
                   ),
                 ),
                 const SizedBox(width: AppConstants.paddingMedium),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: AppConstants.primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.send,
-                      color: Colors.white,
+                ElevatedButton(
+                  onPressed: () {
+                    if (_messageController.text.trim().isNotEmpty) {
+                      setState(() {
+                        _messages.add({
+                          'text': _messageController.text.trim(),
+                          'isUser': true,
+                          'timestamp': DateTime.now(),
+                        });
+                        _messageController.clear();
+                      });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppConstants.primaryColor,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
                     ),
-                    onPressed: _sendMessage,
                   ),
+                  child: const Icon(Icons.send),
                 ),
               ],
             ),
@@ -190,77 +131,44 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildMessageBubble(ChatMessage message) {
-    final isFromUser = message.isFromUser;
+  Widget _buildMessageBubble(Map<String, dynamic> message) {
+    final isUser = message['isUser'] as bool;
     
     return Container(
       margin: const EdgeInsets.only(bottom: AppConstants.paddingMedium),
       child: Row(
-        mainAxisAlignment: isFromUser ? MainAxisAlignment.end : MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
-          if (!isFromUser) ...[
+          if (!isUser) ...[
             CircleAvatar(
-              radius: 16,
               backgroundColor: AppConstants.primaryColor,
-              child: Image.asset(
-                'assets/iKumpra-logo-final.png',
-                width: 20,
-                height: 20,
-                errorBuilder: (context, error, stackTrace) => const Icon(
-                  Icons.shopping_basket,
-                  size: 16,
-                  color: Colors.white,
-                ),
-              ),
+              child: const Icon(Icons.support_agent, color: Colors.white),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppConstants.paddingSmall),
           ],
           Flexible(
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.all(AppConstants.paddingMedium),
               decoration: BoxDecoration(
-                color: isFromUser ? AppConstants.primaryColor : Colors.grey[200],
-                borderRadius: BorderRadius.circular(16).copyWith(
-                  bottomLeft: isFromUser ? const Radius.circular(16) : const Radius.circular(4),
-                  bottomRight: isFromUser ? const Radius.circular(4) : const Radius.circular(16),
+                color: isUser ? AppConstants.primaryColor : AppConstants.cardColor,
+                borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
+                border: Border.all(
+                  color: isUser ? AppConstants.primaryColor : AppConstants.borderColor,
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    message.text,
-                    style: TextStyle(
-                      color: isFromUser ? Colors.white : Colors.black87,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _formatTime(message.timestamp),
-                    style: TextStyle(
-                      color: isFromUser ? Colors.white70 : Colors.grey[600],
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
+              child: Text(
+                message['text'],
+                style: TextStyle(
+                  color: isUser ? Colors.white : AppConstants.textPrimaryColor,
+                ),
               ),
             ),
           ),
-          if (isFromUser) ...[
-            const SizedBox(width: 8),
+          if (isUser) ...[
+            const SizedBox(width: AppConstants.paddingSmall),
             CircleAvatar(
-              radius: 16,
-              backgroundColor: Colors.grey[300],
-              child: const Icon(
-                Icons.person,
-                size: 16,
-                color: Colors.grey,
-              ),
+              backgroundColor: AppConstants.primaryColor,
+              child: const Icon(Icons.person, color: Colors.white),
             ),
           ],
         ],
@@ -268,20 +176,9 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-
-
-  String _formatTime(DateTime timestamp) {
-    final now = DateTime.now();
-    final difference = now.difference(timestamp);
-    
-    if (difference.inMinutes < 1) {
-      return 'Just now';
-    } else if (difference.inMinutes < 60) {
-      return '${difference.inMinutes}m ago';
-    } else if (difference.inHours < 24) {
-      return '${difference.inHours}h ago';
-    } else {
-      return '${timestamp.day}/${timestamp.month}/${timestamp.year}';
-    }
+  @override
+  void dispose() {
+    _messageController.dispose();
+    super.dispose();
   }
 } 
